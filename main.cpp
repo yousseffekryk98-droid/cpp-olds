@@ -1,6 +1,7 @@
 #include <iostream>
 #include <iomanip>
 #include <string>
+#include <cctype>
 using namespace std;
 
 const int MAX_STUDENTS = 100;
