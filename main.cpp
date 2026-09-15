@@ -61,12 +61,31 @@ void updateItem(Item items[], int count) {
 }
 
 void searchItem(const Item items[], int count) {
-    int id;
-    cout << "Search by ID: "; cin >> id;
-    int index = findById(items, count, id);
-    if (index == -1) cout << "Item not found.\n";
-    else cout << items[index].name << " | Qty: " << items[index].quantity
-              << " | Price: " << items[index].price << '\n';
+    int choice;
+    cout << "Search by: 1. ID  2. Name\nChoice: ";
+    cin >> choice;
+
+    if (choice == 1) {
+        int id;
+        cout << "Item ID: "; cin >> id;
+        int index = findById(items, count, id);
+        if (index == -1) cout << "Item not found.\n";
+        else cout << items[index].name << " | Qty: " << items[index].quantity
+                  << " | Price: " << items[index].price << '\n';
+    } else if (choice == 2) {
+        string name;
+        cout << "Item name: "; getline(cin >> ws, name);
+        for (int i = 0; i < count; ++i) {
+            if (items[i].name == name) {
+                cout << "ID: " << items[i].id << " | Qty: " << items[i].quantity
+                     << " | Price: " << items[i].price << '\n';
+                return;
+            }
+        }
+        cout << "Item not found.\n";
+    } else {
+        cout << "Invalid search option.\n";
+    }
 }
 
 void displayAll(const Item items[], int count) {
@@ -89,7 +108,7 @@ int main() {
 
     do {
         cout << "\n--- Inventory Management ---\n"
-             << "1. Add item\n2. Update item\n3. Search by ID\n4. List items\n5. Exit\nChoice: ";
+             << "1. Add item\n2. Update item\n3. Search item\n4. List items\n5. Exit\nChoice: ";
         cin >> choice;
         switch (choice) {
             case 1: addItem(items, count); break;
