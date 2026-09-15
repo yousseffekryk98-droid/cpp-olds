@@ -62,6 +62,25 @@ void rentCar(Car cars[], int count) {
     cout << "Total rental cost: " << cars[i].dailyPrice * cars[i].rentalDays << '\n';
 }
 
+void searchCar(const Car cars[], int count) {
+    int id;
+    cout << "Car ID: "; cin >> id;
+    int i = findCar(cars, count, id);
+    if (i == -1) {
+        cout << "Car not found.\n";
+        return;
+    }
+
+    cout << "Model: " << cars[i].model
+         << "\nDaily price: " << cars[i].dailyPrice
+         << "\nStatus: " << (cars[i].rented ? "Rented" : "Available") << '\n';
+    if (cars[i].rented) {
+        cout << "Customer: " << cars[i].customer
+             << "\nRental days: " << cars[i].rentalDays
+             << "\nTotal: " << cars[i].dailyPrice * cars[i].rentalDays << '\n';
+    }
+}
+
 void displayCars(const Car cars[], int count) {
     cout << left << setw(8) << "ID" << setw(25) << "Model"
          << setw(12) << "Daily" << setw(12) << "Status" << "Customer / Total\n";
@@ -80,15 +99,16 @@ int main() {
     int count = 0, choice;
     do {
         cout << "\n--- Car Rental Management ---\n"
-             << "1. Add car\n2. Rent car\n3. Display cars\n4. Exit\nChoice: ";
+             << "1. Add car\n2. Rent car\n3. Search by ID\n4. Display cars\n5. Exit\nChoice: ";
         cin >> choice;
         switch (choice) {
             case 1: addCar(cars, count); break;
             case 2: rentCar(cars, count); break;
-            case 3: displayCars(cars, count); break;
-            case 4: cout << "Goodbye.\n"; break;
+            case 3: searchCar(cars, count); break;
+            case 4: displayCars(cars, count); break;
+            case 5: cout << "Goodbye.\n"; break;
             default: cout << "Invalid choice.\n";
         }
-    } while (choice != 4);
+    } while (choice != 5);
     return 0;
 }
