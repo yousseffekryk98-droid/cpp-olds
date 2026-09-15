@@ -36,15 +36,39 @@ void addBooking(Booking bookings[], int &count) {
     cout << "Reservation added. Total: " << totalCost(b) << '\n';
 }
 
+void printBooking(const Booking &booking) {
+    cout << "Guest: " << booking.guestName
+         << " | Room: " << booking.roomNumber
+         << " | Nights: " << booking.nights
+         << " | Total: " << totalCost(booking) << '\n';
+}
+
 void searchBooking(const Booking bookings[], int count) {
-    int room;
-    cout << "Room number: "; cin >> room;
-    for (int i = 0; i < count; ++i) {
-        if (bookings[i].roomNumber == room) {
-            cout << bookings[i].guestName << " | " << bookings[i].nights
-                 << " night(s) | Total: " << totalCost(bookings[i]) << '\n';
-            return;
+    int choice;
+    cout << "Search by: 1. Room number  2. Guest name\nChoice: ";
+    cin >> choice;
+
+    if (choice == 1) {
+        int room;
+        cout << "Room number: "; cin >> room;
+        for (int i = 0; i < count; ++i) {
+            if (bookings[i].roomNumber == room) {
+                printBooking(bookings[i]);
+                return;
+            }
         }
+    } else if (choice == 2) {
+        string guest;
+        cout << "Guest name: "; getline(cin >> ws, guest);
+        for (int i = 0; i < count; ++i) {
+            if (bookings[i].guestName == guest) {
+                printBooking(bookings[i]);
+                return;
+            }
+        }
+    } else {
+        cout << "Invalid search option.\n";
+        return;
     }
     cout << "Reservation not found.\n";
 }
@@ -62,7 +86,7 @@ int main() {
     int count = 0, choice;
     do {
         cout << "\n--- Hotel Reservation System ---\n"
-             << "1. Add reservation\n2. Search by room\n3. Display all\n4. Exit\nChoice: ";
+             << "1. Add reservation\n2. Search reservation\n3. Display all\n4. Exit\nChoice: ";
         cin >> choice;
         switch (choice) {
             case 1: addBooking(bookings, count); break;
