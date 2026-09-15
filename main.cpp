@@ -31,17 +31,39 @@ void addPatient(Patient patients[], int &count) {
     cout << "Patient added.\n";
 }
 
+void printPatient(const Patient &p) {
+    cout << "ID: " << p.id
+         << "\nName: " << p.name
+         << "\nAge: " << p.age
+         << "\nDisease: " << p.disease << '\n';
+}
+
 void searchPatient(const Patient patients[], int count) {
-    int id;
-    cout << "Enter patient ID: ";
-    cin >> id;
-    for (int i = 0; i < count; ++i) {
-        if (patients[i].id == id) {
-            cout << "Name: " << patients[i].name
-                 << "\nAge: " << patients[i].age
-                 << "\nDisease: " << patients[i].disease << '\n';
-            return;
+    int choice;
+    cout << "Search by: 1. ID  2. Name\nChoice: ";
+    cin >> choice;
+
+    if (choice == 1) {
+        int id;
+        cout << "Enter patient ID: "; cin >> id;
+        for (int i = 0; i < count; ++i) {
+            if (patients[i].id == id) {
+                printPatient(patients[i]);
+                return;
+            }
         }
+    } else if (choice == 2) {
+        string name;
+        cout << "Enter patient name: "; getline(cin >> ws, name);
+        for (int i = 0; i < count; ++i) {
+            if (patients[i].name == name) {
+                printPatient(patients[i]);
+                return;
+            }
+        }
+    } else {
+        cout << "Invalid search option.\n";
+        return;
     }
     cout << "Patient not found.\n";
 }
@@ -60,7 +82,7 @@ int main() {
 
     do {
         cout << "\n--- Hospital Patient Records ---\n"
-             << "1. Add patient\n2. Search by ID\n3. Display all\n4. Exit\nChoice: ";
+             << "1. Add patient\n2. Search patient\n3. Display all\n4. Exit\nChoice: ";
         cin >> choice;
         switch (choice) {
             case 1: addPatient(patients, count); break;
