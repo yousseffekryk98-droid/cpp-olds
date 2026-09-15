@@ -34,15 +34,36 @@ int findByISBN(const Book books[], int count, const string &isbn) {
     return -1;
 }
 
+void printBook(const Book &book) {
+    cout << book.title << " by " << book.author
+         << " (" << book.year << ") - "
+         << (book.borrowed ? "Borrowed" : "Available") << '\n';
+}
+
 void searchBook(const Book books[], int count) {
-    string isbn;
-    cout << "Enter ISBN: ";
-    getline(cin >> ws, isbn);
-    int i = findByISBN(books, count, isbn);
-    if (i == -1) cout << "Book not found.\n";
-    else cout << books[i].title << " by " << books[i].author
-              << " (" << books[i].year << ") - "
-              << (books[i].borrowed ? "Borrowed" : "Available") << '\n';
+    int choice;
+    cout << "Search by: 1. Title  2. ISBN\nChoice: ";
+    cin >> choice;
+
+    if (choice == 1) {
+        string title;
+        cout << "Enter title: "; getline(cin >> ws, title);
+        for (int i = 0; i < count; ++i) {
+            if (books[i].title == title) {
+                printBook(books[i]);
+                return;
+            }
+        }
+        cout << "Book not found.\n";
+    } else if (choice == 2) {
+        string isbn;
+        cout << "Enter ISBN: "; getline(cin >> ws, isbn);
+        int i = findByISBN(books, count, isbn);
+        if (i == -1) cout << "Book not found.\n";
+        else printBook(books[i]);
+    } else {
+        cout << "Invalid search option.\n";
+    }
 }
 
 void changeStatus(Book books[], int count, bool borrow) {
@@ -77,7 +98,7 @@ int main() {
     int count = 0, choice;
     do {
         cout << "\n--- Library Book Management ---\n"
-             << "1. Add book\n2. Search by ISBN\n3. Borrow book\n4. Return book\n"
+             << "1. Add book\n2. Search book\n3. Borrow book\n4. Return book\n"
              << "5. Display all\n6. Exit\nChoice: ";
         cin >> choice;
         switch (choice) {
